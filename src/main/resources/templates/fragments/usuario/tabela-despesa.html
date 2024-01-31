@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="table-expense">
+		<div class="filter">
+					<button class="icon btn border-0" href="#" data-bs-toggle="dropdown"><i
+							class="bi bi-three-dots"></i></button>
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+
+
+						<li th:each="date: ${dataExp}" class="dropdown-item">
+							<a class="linkMonth" th:href="@{/usuario/area-cliente(dateExp=${date.toLowerCase()},dateRev=${#strings.replace(dateMonthR.toLowerCase(),' ','-')})}"
+								th:text="${#strings.replace(date, '-', ' ')}">
+							</a>
+						</li>
+
+					</ul>
+				</div>
+		<div th:if="${exps.size() > 0}">
+			<div class="rounded border border-opacity-50 border-bottom-0">
+				
+				<table th:class="${exps.size() > 0 ? 'table' : 'd-none'}">
+					<thead class="table-primary">
+						<tr>
+							<th scope="col">Dia</th>
+							<th scope="col">Categoria</th>
+							<th scope="col">Valor</th>
+							<th scope="col">Descricao</th>
+							<th scope="col">Ações</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr th:each="exp: ${exps}">
+							<td th:text="${#temporals.day(exp.getData())}"></td>
+							<td th:text="${exp.getCategoria()}"></td>
+							<td id="f-currency" th:text="${#numbers.formatCurrency(exp.getValor())}"></td>
+							<td th:text="${exp.getDescricao()}"></td>
+							<td class="d-flex gap-2">
+								<a th:href="@{/usuario/area-cliente/despesa/editar/{id} (id=${exp.getId()})}"
+									class="border-0 bg-transparent">
+									<h5 class="mb-0">
+										<i class="bi bi-pencil text-info"></i>
+									</h5>
+								</a>
+								<a onclick="return confirm('Tem certeza que deseja excluir o cliente?');"
+									th:href="@{/usuario/area-cliente/despesa/delete/{id} (id=${exp.getId()})}"
+									class="border-0 bg-transparent">
+									<h5 class="mb-0">
+										<i class="bi bi-x-lg text-danger fw-bold"></i>
+									</h5>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- gráfico de pizza-->
+			<canvas id="pieChart" class="my-5" style="max-height: 400px"></canvas>
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+
+				var expString = /*[[${expsString}]]*/ null;
+
+				//colocando a string de uma forma que possa fazer um json parse
+				const exps = expString.map(
+					(ele) => `{"${ele.split(',').join('","')}"}`
+				);
+				//transformando o array de string em objeto json iteravel
+				const exps2 = exps.map((ele) =>
+					JSON.parse(ele.split(':').join('":"'))
+				);
+
+				//calculando os valores para uma mesma categoria
+				const expensesCount = exps2.map((exp) => {
+					let valor = 0;
+					let categoria;
+
+					const expFilter = exps2.filter(
+						(expFilter, index) =>
+							expFilter.categoria == exp.categoria
+					);
+
+					return {
+						categoria: exp.categoria,
+						valor: expFilter.reduce(
+							(acum, ele) => acum + Number(ele.valor),
+							0
+						),
+					};
+				});
+				const valueCat = expensesCount
+					.map((e) => JSON.stringify(e))
+					.reduce(
+						(acc, cur) => (
+							acc.includes(cur) || acc.push(cur), acc
+						),
+						[]
+					)
+					.map((e) => JSON.parse(e));
+
+				document.addEventListener('DOMContentLoaded', () => {
+					new Chart(document.querySelector('#pieChart'), {
+						type: 'pie',
+						data: {
+							labels: valueCat.map((exp) => exp.categoria),
+							datasets: [
+								{
+									label: 'Gráfico de despesas',
+									data: valueCat.map((exp) => exp.valor),
+									backgroundColor: [
+										'#5b1d99',
+										'#0074b4',
+										'#00b34c',
+										'#ffd41f',
+										'#fc6e3d',
+										'#000000',
+										'#657275',
+										'#af162a',
+										'#032dc6',
+									],
+									hoverOffset: 4,
+								},
+							],
+						},
+					});
+				});
+                    /*]]>*/
+			</script>
+		</div>
+	</div>
+</body>
+
+</html>

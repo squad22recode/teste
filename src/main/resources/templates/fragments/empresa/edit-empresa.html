@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="edit-company">
+		<div class="modal fade" id="editCompanyModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar empresa</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form class="row g-3" method="post" th:object="${companyEdit}" th:action="@{/usuario/area-cliente/editar-empresa}">
+							<!-- <input type="hidden" th:field="*{enderecoEmpresa.id}" th:value="${companyEdit.getEnderecoEmpresa().getId()}"/> -->
+							<div class="col-md-4">
+								<label for="inputName" class="form-label">Nome da empresa</label>
+								<input type="text" class="form-control" id="inputName" required th:field="*{nomeEmpresa}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputCnpj" class="form-label">CNPJ</label>
+								<input type="text" class="form-control" id="inputCnpj" onkeyup="documentCompanyMask(this)" maxlength="18" th:field="*{cnpj}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputRazaoSocial" class="form-label">Razão social</label>
+								<input type="text" class="form-control" id="inputRazaoSocial"
+									maxlength="18" th:field="*{razaoSocial}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputAddress" class="form-label">Endereço</label>
+								<input type="text" class="form-control" required id="inputAddress"
+									th:field="*{enderecoEmpresa.endereco}" placeholder="Av Aberlado Bueno 135" />
+							</div>
+
+							<div class="col-md-4">
+								<label for="inputAddress2" class="form-label">Complemento</label>
+								<input type="text" class="form-control" id="inputAddress2"
+									th:field="*{enderecoEmpresa.complemento}"
+									placeholder="Apartamento, casa, lote, etc." />
+							</div>
+							<div class="col-md-4">
+								<label for="inputDistrict" class="form-label">Bairro</label>
+								<input type="text" class="form-control" required id="inputDistrict"
+									th:field="*{enderecoEmpresa.bairro}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputCity" class="form-label">Cidade</label>
+								<input type="text" class="form-control" required id="inputCity"
+									th:field="*{enderecoEmpresa.cidade}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputState" class="form-label">Estado</label>
+								<select id="inputState" class="form-select" th:field="*{enderecoEmpresa.estado}">
+									<option selected value="null">Selecione</option>
+
+									<option th:each="state: ${states}" th:text="${state.descricao}"
+										th:value="${state.descricao}"></option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="inputZip" class="form-label">Cep</label>
+								<input type="text" class="form-control" onkeyup="handleZipCode(event)" required
+									maxlength="9" id="inputZip" th:field="*{enderecoEmpresa.cep}" />
+							</div> 
+							
+							<div class="col-12 my-2">
+								<button type="submit" class="btn btn-primary">
+									Cadastrar
+								</button>
+							</div>
+						</form>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+
+</html>

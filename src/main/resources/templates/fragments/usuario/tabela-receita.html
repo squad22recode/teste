@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="table-revenue">
+		<div class="d-flex justify-content-between">
+
+			<div class="pagetitle mt-3">
+				<div class="d-flex">
+					<h5 class="card-title">Receitas:<span th:text="'| ' + ${#strings.replace(dateMonthE, '-',' ')}"></span></h5>
+					
+				</div>
+				<p>Ontras fontes de receita (Lembrando que sua
+					empresa
+					faturou R$ 380,00 no mês anterior):</p>
+			</div>
+			<div class="">
+				<button class="icon btn border-0" href="#" data-bs-toggle="dropdown"><i
+						class="bi bi-three-dots"></i></button>
+				<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+
+
+					<li th:each="date: ${dataRev}" class="dropdown-item">
+						<a class="linkMonth"
+							th:href="@{/usuario/area-cliente(dateRev=${date.toLowerCase()},dateExp=${#strings.replace(dateMonthE.toLowerCase(),' ','-')})}"
+							th:text="${#strings.replace(date, '-', ' ')}">
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div th:if="${revs.size() > 0}">
+
+			<div class="rounded border border-opacity-50 border-bottom-0">
+
+				<table class="table">
+					<thead class="table-primary">
+						<tr>
+							<th scope="col">Dia</th>
+							<th scope="col">Valor</th>
+							<th scope="col">Descrição</th>
+							<th scope="col">Ações</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr th:each="rev: ${revs}">
+							<td scope="col" th:text="${#temporals.day(rev.getData())}"></td>
+
+							<td scope="col" th:text="${#numbers.formatCurrency(rev.getValor())}"></td>
+							<td scope="col" th:text="${rev.getDescricao()}"></td>
+							<td class="d-flex">
+								<a th:href="@{/usuario/area-cliente/receita/editar/{id} (id=${rev.getId()})}"
+									class="border-0 bg-transparent">
+									<h5 class="mb-0">
+										<i class="bi bi-pencil text-info"></i>
+									</h5>
+								</a>
+								<a onclick="return confirm('Tem certeza que deseja excluir o cliente?');"
+									th:href="@{/usuario/area-cliente/receita/delete/{id} (id=${rev.getId()})}"
+									class="border-0 bg-transparent">
+									<h5 class="mb-0">
+										<i class="bi bi-x-lg text-danger"></i>
+									</h5>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div th:class="${totalRevenue-totalExpense < 0} ? 'alert-danger card p-2 overflow-auto alert' : 'alert-info card p-2 overflow-auto alert'"
+				role="alert">
+				<table>
+					<thead>
+						<tr>
+							<th>Receita Total Bruta:</th>
+							<th>Despesa total:</th>
+							<th>Receita Total Líquida:</th>
+							<th>Investimentos:</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${#numbers.formatCurrency(totalRevenue)}"></td>
+							<td th:text="${#numbers.formatCurrency(totalExpense)}"></td>
+							<td th:text="${#numbers.formatCurrency(totalRevenue - totalExpense)}"></td>
+							<td>R$ 0,00</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h6 class="p-3 badge bg-danger" style="max-width: 200px">
+					*Nenhum investimento realizado
+				</h6>
+			</div>
+
+			<canvas id="lineChart" style="max-height: 400px"></canvas>
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				var revTotalMonthString = /*[[${totalMonth}]]*/ null;
+				const months = /*[[${months}]]*/ null;
+				/*]]>*/
+				const revJson = JSON.parse(revTotalMonthString);
+
+				let dateMonth = [];
+				let valueMonth = [];
+				const filterRev = revJson.forEach((rev) => {
+					if (rev.valor != '0.0') {
+						const date = new Date(rev.data).getUTCMonth();
+						dateMonth.push(months[date]);
+						valueMonth.push(rev.valor);
+					}
+				});
+
+				document.addEventListener('DOMContentLoaded', () => {
+					new Chart(document.querySelector('#lineChart'), {
+						type: 'line',
+						data: {
+							labels: dateMonth,
+							datasets: [
+								{
+									label: 'Receita bruta mensal R$',
+									data: valueMonth,
+									fill: false,
+									borderColor: '#04347c',
+									tension: 0.1,
+								},
+							],
+						},
+						options: {
+							scales: {
+								y: {
+									beginAtZero: false,
+								},
+							},
+						},
+					});
+				});
+			</script>
+		</div>
+	</div>
+</body>
+
+</html>

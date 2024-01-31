@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <th:block th:include="fragments/head :: head"></th:block>
+
+        <link rel="stylesheet" href="/assets/styles/painel-controle.css" />
+
+        <title>GestãoCash | Painel</title>
+    </head>
+
+    <body>
+        <div>
+            <div class="container-fluid">
+                <div class="row flex-nowrap w-auto overflow-hidden">
+                    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
+                        <div
+                            class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 logo-d">
+                            <img
+                                src="https://raw.githubusercontent.com/squad22recode/gestaocash_imagens/main/images/logo.png"
+                                class="logo-img"
+                                alt="logo gestãocash" />
+                            <ul
+                                class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start menu"
+                                id="menu">
+                                <li class="nav-item">
+                                    <a
+                                        href="/painel-controle"
+                                        class="nav-link align-middle px-0">
+                                        <i class="fs-4 bi-house"></i>
+                                        <span class="ms-1 d-none d-sm-inline"
+                                            >Home</span
+                                        >
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#submenu1"
+                                        data-bs-toggle="collapse"
+                                        class="nav-link px-0 align-middle">
+                                        <i class="fs-4 bi-speedometer2"></i>
+                                        <span class="ms-1 d-none d-sm-inline"
+                                            >Dashboard</span
+                                        >
+                                    </a>
+                                </li>
+                                <li></li>
+
+                                <li class="act">
+                                    <a
+                                        href="#submenu3"
+                                        data-bs-toggle="collapse"
+                                        class="nav-link px-0 align-middle">
+                                        <i class="fs-4 bi-grid"></i>
+                                        <span class="ms-1 d-none d-sm-inline"
+                                            >Cursos</span
+                                        >
+                                    </a>
+                                    <ul
+                                        class="collapse nav flex-column ms-1"
+                                        id="submenu3"
+                                        data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="#" class="nav-link px-0">
+                                                Listar</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="/painel-controle/curso/novo"
+                                                class="nav-link px-0">
+                                                Criar
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#"
+                                        class="nav-link px-0 align-middle">
+                                        <i class="fs-4 bi-people"></i>
+                                        <span class="ms-1 d-none d-sm-inline"
+                                            >Customers</span
+                                        >
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr />
+                            <div class="dropdown pb-4">
+                                <a
+                                    href="#"
+                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                                    id="dropdownUser1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img
+                                        th:src="|/usuario/imagem/${user.getId()}|"
+                                        alt="hugenerd"
+                                        onerror="this.src='https://raw.githubusercontent.com/squad22recode/gestaocash_imagens/main/images/user-default.svg';"
+                                        width="30"
+                                        height="30"
+                                        class="rounded-circle" />
+                                    <span
+                                        class="d-none d-sm-inline mx-1"
+                                        th:text="${user.getNome()}"></span>
+                                </a>
+                                <ul
+                                    class="dropdown-menu dropdown-menu-dark text-small shadow"
+                                    aria-labelledby="dropdownUser1">
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Settings</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Profile</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/logout"
+                                            >Logout</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-0 py-5 px-5">
+                        <div class="container-table">
+                            <!-- <header
+                                class="header-client bg-dark d-flex justify-content-between p-4">
+                                <h4 class="text-white fw-bold">
+                                    Gerenciamento de cursos
+                                </h4>
+                                <div>
+                                    <a
+                                        class="btn btn-danger disabled fw-bold"
+                                        id="btn-deletes"
+                                        disabled
+                                        ><i
+                                            class="fa-solid fa-circle-minus"></i>
+                                        Deletar</a
+                                    >
+                                    <a
+                                        class="btn btn-success fw-bold"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalNovoCliente"
+                                        ><i class="fa-solid fa-circle-plus"></i>
+                                        Adicionar novo</a
+                                    >
+                                </div>
+                            </header> -->
+                            <div class="wrapper-table d-flex">
+                                <table class="">
+                                    <thead class="">
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Descricao</th>
+                                            <th>Url</th>
+                                            <th>Duracao</th>
+                                            <th>Tempo p/ concluir</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">
+                                        <tr th:each="c: ${courses}">
+                                            <td th:text="${c.nomeCurso}"></td>
+                                            <td th:text="${c.descricao}"></td>
+                                            <td th:text="${c.url}"></td>
+                                            <td th:text="${c.duracao}"></td>
+                                            <td th:text="${c.conclusao}"></td>
+                                            <td>
+                                                <a
+                                                    th:href="@{'/cursos/editar/' + ${c.id}}"
+                                                    class="edit"
+                                                    >Editar</a
+                                                >
+                                                |
+                                                <a
+                                                    th:href="@{'/cursos/delete/' + ${c.id}}"
+                                                    class="delete"
+                                                    >Excluir</a
+                                                >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+
+        <!-- <div th:replace="fragments/footer :: footer"></div> -->
+    </body>
+</html>

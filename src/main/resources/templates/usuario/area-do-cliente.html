@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Área do Cliente')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+
+	<section class="section profile container">
+		<!-- Inicio perfil do cliente -->
+		<div class="row justify-content-center mt-3">
+			<div class="col-10 col-md-6 col-lg-6 col-xxl-4">
+
+				<div th:replace="~{fragments/usuario/card-info-usuario :: card-user}"></div>
+
+			</div>
+		</div>
+		<!-- Fim perfil cliente -->
+
+		<div class="col-xl-12">
+
+			<div class="card">
+				<div class="card-body pt-3">
+					<!-- Inicio navegação entre abas -->
+					<ul class="nav nav-tabs nav-tabs-bordered">
+						<li class="nav-item">
+							<!--<button class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#profile-physical">Pessoa Física</button>-->
+							<a href="/usuario/area-cliente" class="nav-link active">Pessoa Física</a>
+						</li>
+
+						<li class="nav-item">
+							<!--<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-legal">Pessoa
+								Jurídica</button>-->
+							<a href="/usuario/area-cliente/empresa?filtro=mes" class="nav-link">Pessoa
+								Jurídica</button></a>
+						</li>
+
+						<li class="nav-item">
+							<a href="/usuario/area-cliente/area-conhecimento" class="nav-link">Área do
+								conhecimento</button></a>
+
+						</li>
+					</ul>
+				</div>
+
+				<!-- Fim navegação entre abas -->
+				<div class="tab-content pt-2">
+					<!-- Inicio navegação pessoa fisica -->
+					<div class="tab-pane fade show active profile-physical" id="profile-physical">
+						<section id="main" class="main">
+							<div class="pagetitle">
+								<h1>Pessoa Física</h1>
+							</div>
+							<!-- Modal-->
+
+							<div class="modal fade" id="modalReceita" tabindex="-1" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar Receita
+											</h1>
+										</div>
+										<div class="modal-body">
+											<div th:replace="~{fragments/usuario/add-receita :: add-revenue}"></div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Fechar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal despesa-->
+							<div class="modal fade" id="modalDespesa" tabindex="-1" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar Despesa
+											</h1>
+										</div>
+										<div class="modal-body">
+											<div th:replace="~{fragments/usuario/add-despesa :: add-expense}"></div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Fechar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="section dashboard">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="row">
+											<div class="col-12">
+												<div class="card recent-sales overflow-auto">
+
+
+													<!-- <p th:each="exp: ${data}" th:text="${#temporals.monthName(exp)}+' '+${#temporals.year(exp)}"></p> -->
+													<p th:if="date != null" th:text="${date}"><strong></strong></p>
+													<div class="card-body">
+														<h5 class="card-title">Controle financeiro
+															<span
+																th:text="'| ' + ${#strings.replace(dateMonthE, '-',' ')}"></span>
+														</h5>
+														<span class="btn btn-danger" data-bs-toggle="modal"
+															data-bs-target="#modalDespesa">Adicionar despesa</span>
+														<div class="pagetitle mt-3">
+															<h5>Despesas:</h5>
+														</div>
+
+														<!--Modal tabela de despesa-->
+														<div
+															th:replace="~{fragments/usuario/tabela-despesa :: table-expense}">
+
+														</div>
+														<h4 th:if="${exps.size() < 1}" class="alert alert-info">
+															Nenhuma despesa até então</h4>
+															
+														<div class="pagetitle ">
+															<span class="btn btn-primary" data-bs-toggle="modal"
+																data-bs-target="#modalReceita">Adicionar
+																receita</span>
+
+															<div
+																th:replace="~{fragments/usuario/tabela-receita :: table-revenue}">
+																<h4 th:if="${revs.size() < 1}"
+																	class="alert alert-danger">
+																	Nenhuma receita até então</h4>
+															</div>
+														</div><!-- fim controle financeiro -->
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<!-- Fim navegação pessoa fisica -->
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+	<!-- <script src="/assets/scripts/constants.js"></script> -->
+	<!-- script do Chart.js -->
+	<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+	<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+	<script src="/assets/vendor/echarts/echarts.min.js"></script>
+
+	<script>
+
+		function validarAno() {
+			var dataInput = document.getElementById('inputData');
+			var anoAtual = new Date().getFullYear();
+
+			if (dataInput.value !== '' && dataInput.value.substring(0, 4) != anoAtual) {
+				alert('Por favor, insira uma data com o ano atual (' + anoAtual + ').');
+				dataInput.value = ''; // Limpa o campo de data
+				dataInput.focus(); // Coloca o foco de volta no campo de data
+			}
+		}
+
+	</script>
+
+	<script type="text/javascript" th:src="@{/assets/scripts/scripts.js}"></script>
+
+</body>
+
+</html>

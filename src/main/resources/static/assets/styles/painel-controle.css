@@ -1,0 +1,230 @@
+.logo-d img {
+    margin: 2rem 0;
+    max-width: 100%;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-wrapper input {
+    max-width: 400px;
+}
+
+.nav {
+    font-family: 'Roboto', sans-serif;
+}
+
+.menu li > * {
+    color: #04347c;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.nav li span {
+    font-size: 18px;
+}
+
+.act {
+    background: #04347c;
+}
+
+.act > a {
+    color: #fff;
+}
+
+.act > ul a {
+    color: #fff;
+}
+
+.menu ul {
+    width: 100%;
+}
+
+.menu li {
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+}
+.menu li {
+    width: 100%;
+}
+
+/* table cursos */
+
+.container-table {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-table .wrapper-table {
+    overflow-x: auto;
+    height: auto;
+    max-width: 1200px;
+
+    display: flex;
+    flex-direction: column;
+    overflow-wrap: break-word;
+    background: #fff;
+    border-radius: 0.7rem;
+    box-shadow: rgba(103, 116, 142, 0.075) 0rem 0rem 1rem 0rem;
+
+    margin: 0 2rem;
+}
+
+.container-table .wrapper-table table {
+    display: table;
+    width: 100%;
+
+    border-collapse: collapse;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+.container-table .wrapper-table table tr {
+    display: table-row;
+    vertical-align: middle;
+    outline: 0px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #8392ab;
+
+    border-bottom: 0.2px solid rgb(0, 0, 0, 0.2);
+}
+
+.container-table th {
+    background: #000;
+    padding: 1rem;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #eee;
+}
+
+.container-table table tr th:nth-child(4),
+.container-table table tr th:nth-child(5),
+.container-table table tr td:nth-child(4),
+.container-table table tr td:nth-child(5) {
+    min-width: 100px;
+}
+
+.container-table table tbody tr td {
+    display: table-cell;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    vertical-align: inherit;
+    border: none;
+    padding: 1.5rem;
+
+    text-align: left;
+    /* padding: 1rem;
+    text-align: left; */
+}
+
+.edit {
+    font-weight: bold;
+    color: rgb(131, 131, 16);
+}
+
+.delete {
+    font-weight: bold;
+    color: red;
+    transition: all 0.6s ease;
+}
+
+td a {
+    color: inherit;
+}
+
+main {
+    width: 100%;
+}
+
+/* form add curso */
+
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 2rem 0;
+}
+
+.container-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-form button {
+    cursor: pointer;
+    background-color: #04347c;
+    width: fit-content;
+}
+
+.container-form > form {
+    width: 100%;
+    max-width: 26rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-form form-outline {
+    display: flex;
+    width: 100%;
+}
+
+.container-form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* form edit */
+
+.container-form-edit {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-form-edit button {
+    cursor: pointer;
+    background-color: #04347c;
+    width: fit-content;
+}
+
+.container-form-edit > form {
+    width: 100%;
+    max-width: 26rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-form-edit form-outline {
+    display: flex;
+    width: 100%;
+}
+
+.container-form-edit input {
+    width: 100%;
+    box-sizing: border-box;
+}

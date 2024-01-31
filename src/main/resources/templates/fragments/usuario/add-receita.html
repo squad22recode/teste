@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    
+    <body>
+		<div th:fragment="add-revenue">
+			<form th:object="${revenue}" method="post" th:action="@{/usuario/area-cliente/receita}">
+
+													<div class="mb-3">
+														<label for="InputData" class="form-label">Data</label>
+														<input type="date" required class="form-control" id="inputData" onblur="validarAno()"
+															th:field="*{data}">
+
+													</div>
+													<div class="mb-3">
+														<label for="InputDescricao" class="form-label">Descrição</label>
+														<input type="text" class="form-control" placeholder="Venda, renda extra..." id="InputData"
+															th:field="*{descricao}">
+
+													</div>
+													<div class="mb-3">
+														<label for="InputValor" class="form-label">Valor</label>
+														<input type="number" class="form-control" id="InputValor"
+															th:field="*{valor}" step="0.01" maxlength="10" required
+															placeholder="Digite o valor">
+
+													</div>
+													<button type="submit" class="btn btn-primary">Salvar</button>
+												</form>
+		</div>
+	</body>
+</html>

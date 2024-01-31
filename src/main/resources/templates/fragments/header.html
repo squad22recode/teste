@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <header th:fragment="header">
+            <nav class="nav navbar navbar-expand-lg bg-transparent text-center">
+                <div class="container">
+                    <a class="navbar-brand" href="/"
+                        ><img
+                            src="https://raw.githubusercontent.com/squad22recode/gestaocash_imagens/main/images/logo.png"
+                            class="logo-img"
+                            alt="logo gestãocash"
+                    /></a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div
+                        class="collapse navbar-collapse justify-content-end"
+                        id="navbarNavDropdown">
+                        <ul class="navbar-nav gap-3 fs-5 list-items">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    aria-current="page"
+                                    href="/"
+                                    >Página inicial</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="/usuario/area-cliente"
+                                    >Área do cliente</a
+                                >
+                            </li>
+
+                            <li class="nav-item" sec:authorize="isAnonymous()">
+                                <a class="nav-link" href="/duvidas"
+                                    >Dúvidas frequentes</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/contato"
+                                    >Contato</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/sobre">Sobre</a>
+                            </li>
+                            <li
+                                class="nav-item"
+                                sec:authorize="hasRole('ADMIN')">
+                                <a class="nav-link" href="/painel-controle"
+                                    >Painel</a
+                                >
+                            </li>
+                            <li class="nav-item" sec:authorize="isAnonymous()">
+                                <a
+                                    class="nav-link"
+                                    href="/usuario/cadastro"
+                                    >Cadastre-se</a
+                                >
+                            </li>
+                            <li class="nav-item" sec:authorize="isAnonymous()">
+                                <a class="nav-link active" href="/login"
+                                    >Login</a
+                                >
+                            </li>
+                            <li
+                                class="nav-item"
+                                sec:authorize="isAuthenticated()">
+                                <a class="nav-link active" href="/login">
+                                    <strong
+                                        th:text="${#authentication.name}"></strong
+                                ></a>
+                            </li>
+                            <li
+                                class="nav-item"
+                                sec:authorize="isAuthenticated()">
+                                <a
+                                    class="nav-item btn btn-danger"
+                                    href="/logout"
+                                    >Logout</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Área do Cliente')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+
+	<section class="section profile container">
+		<!-- Inicio perfil do cliente -->
+		<div class="row justify-content-center mt-3">
+			<div class="col-10 col-md-6 col-lg-6 col-xxl-4">
+
+				<div th:replace="~{fragments/usuario/card-info-usuario :: card-user}"></div>
+
+			</div>
+		</div>
+		<!-- Fim perfil cliente -->
+
+		<div class="col-xl-12">
+
+			<div class="card">
+				<div class="card-body pt-3">
+					<!-- Inicio navegação entre abas -->
+					<ul class="nav nav-tabs nav-tabs-bordered">
+						<li class="nav-item">
+							<!--<button class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#profile-physical">Pessoa Física</button>-->
+							<a href="/usuario/area-cliente" class="nav-link">Pessoa Física</a>
+						</li>
+
+						<li class="nav-item">
+							<!--<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-legal">Pessoa
+								Jurídica</button>-->
+							<a href="/usuario/area-cliente/empresa?filtro=mes" class="nav-link active">Pessoa
+								Jurídica</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="/usuario/area-cliente/area-conhecimento" class="nav-link">Área do conhecimento</button></a>
+
+						</li>
+					</ul>
+					<!-- Fim navegação entre abas -->
+					<!-- Inicio navegação pessoa Juridica -->
+					<div class="tab-pane pt-3">
+
+						<section id="main" class="main">
+							<!-- Modal cadastro da empresa -->
+							<div th:replace="~{fragments/empresa/cadastro-empresa :: register-company}"></div>
+
+							<!-- Modal editar da empresa -->
+							<div th:if="${user.getEmpresa()} != null"
+								th:insert="~{fragments/empresa/edit-empresa :: edit-company}"></div>
+
+							<!-- Modal cadastro de cliente -->
+							<div th:insert="~{fragments/empresa/add-cliente :: add-client}"></div>
+
+							<!-- Modal cadastro de produto -->
+							<div th:insert="~{fragments/empresa/add-produto :: add-product}"></div>
+
+
+							<div class="pagetitle d-flex justify-content-between">
+								<h1>Pessoa Jurídica</h1>
+								<div class="d-flex gap-3">
+
+									<h5 th:if="${user.getEmpresa()} == null" role="button" data-bs-toggle="modal"
+										data-bs-target="#registerCompanyModal"><i class="bi bi-plus-lg"></i> Adicionar
+										empresa</h5>
+									<h5 th:if="${user.getEmpresa()} != null" role="button" data-bs-toggle="modal"
+										data-bs-target="#editCompanyModal"><i class="bi bi-pencil"></i> Editar empresa
+									</h5>
+									<div class="filter">
+										<a class="icon" href="#" data-bs-toggle="dropdown"><i
+												class="bi bi-three-dots"></i></a>
+										<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+
+											<li><a class="dropdown-item"
+													th:href="@{/usuario/area-cliente/empresa(filtro='hoje')}">Dados de
+													hoje</a>
+											</li>
+											<li><a class="dropdown-item"
+													th:href="@{/usuario/area-cliente/empresa(filtro='mes')}">Dados deste
+													mês</a>
+											</li>
+											<li><a class="dropdown-item"
+													th:href="@{/usuario/area-cliente/empresa(filtro='ano')}">Dados deste
+													ano</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="section dashboard">
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="row">
+
+											<!-- Card de vendas -->
+											<div class="col-lg-4">
+												<div class="card info-card sales-card">
+
+													<a th:href="@{empresa/vendas}" class="card-body">
+														<h5 class="card-title">Vendas <span
+																th:text="'| ' + ${filterString}">
+															</span></h5>
+
+														<div class="d-flex align-items-center">
+															<div
+																class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+																<i class="bi bi-cart"></i>
+															</div>
+															<div class="ps-3">
+																<h6 th:text="${#lists.size(salesFilter)}"></h6>
+																<span class="text-success small pt-1 fw-bold"></span>
+																<span class="text-muted small pt-2 ps-1">Aumento</span>
+
+															</div>
+														</div>
+													</a>
+												
+												</div>
+											</div><!-- Fim card vendas -->
+
+											<!--card de receitas -->
+											<div class="col-lg-4">
+												<div class="card info-card revenue-card">
+
+													<div class="card-body">
+														<h5 class="card-title">Receita <span
+																th:text="' | ' + ${filterString}"></span>
+														</h5>
+
+														<div class="d-flex align-items-center">
+															<div
+																class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+																<i class="bi bi-currency-dollar"></i>
+															</div>
+															<div class="ps-3">
+																<h6 th:text="${#numbers.formatCurrency(revenue)}">R$
+																	1250,00</h6>
+																<span class="text-success small pt-1 fw-bold">8%</span>
+																<span class="text-muted small pt-2 ps-1">Aumento</span>
+
+															</div>
+														</div>
+													</div>
+
+												</div>
+											</div><!-- Fim card de receitas -->
+
+											<!-- Card de clientes -->
+											<div class="col-lg-4">
+
+												<div class="card info-card customers-card">
+
+													<div class="card-body">
+														<h5 class="card-title">Clientes <span
+																th:text="' | ' + ${filterString}"></span>
+														</h5>
+
+														<div class="d-flex align-items-center">
+															<div
+																class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+																<i class="bi bi-people"></i>
+															</div>
+															<div class="ps-3">
+																<h6 th:text="${countClients}"></h6>
+																<span class="text-danger small pt-1 fw-bold">5%</span>
+																<span class="text-muted small pt-2 ps-1">Redução</span>
+
+															</div>
+														</div>
+
+													</div>
+													<h5 class="ms-3" role="button" data-bs-toggle="modal"
+														data-bs-target="#addClientModal"><i class="bi bi-plus-lg"></i>
+														Adicionar Cliente</h5>
+												</div>
+
+											</div>
+											<!-- Fim card de clientes -->
+
+											<!-- realatórios e gráficos -->
+											<div class="col-12">
+												<div class="card">
+
+
+													<div class="card-body">
+														<h5 class="card-title">Relatórios <span
+																th:text="' | ' + ${filterString}"></span>
+														</h5>
+
+														<!-- Line Chart -->
+														<div id="reportsChart"></div>
+
+
+														<!-- End Line Chart -->
+
+													</div>
+
+												</div>
+											</div><!-- Fim relatorio -->
+
+											<!-- controle de estoques -->
+											<div class="col-12">
+												<div class="card top-selling overflow-auto">
+
+													<div class="card-body pb-0">
+														<div class="d-flex justify-content-between w-100">
+
+															<h5 class="card-title">Controle de estoque
+															</h5>
+
+															<h5 class="card-title text-primary-emphasis" role="button"
+																data-bs-toggle="modal"
+																data-bs-target="#addProductModal"><i
+																	class="bi bi-plus-lg"></i> Adicionar Produto
+															</h5>
+														</div>
+														<table class="table table-borderless">
+															<thead>
+																<tr>
+																	<th scope="col">Vizualização</th>
+																	<th scope="col">Produto</th>
+																	<th scope="col">Custo</th>
+																	<th scope="col">Quantidade</th>
+																	<th scope="col">Status</th>
+																	<th scope="col">Custo total</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="product: ${products}">
+																	<th scope="row"><img width="25px"
+																			th:src="${product.getImg()}" alt=""></th>
+
+																	<td>
+																		<span th:text="${product.getNome()}"
+																			class="text-primary fw-bold">
+																	</td>
+
+																	<td
+																		th:text="${#numbers.formatCurrency(product.getCusto())}">
+																	</td>
+																	<td th:text="${product.getEstoque()}"
+																		class="fw-bold"></td>
+																	<td>
+																		<span th:if="${product.getEstoque() < 5}"
+																			class="text-bg-danger badge">Estoque muito
+																			baixo
+																			repor imediatamente</span>
+																		<span
+																			th:if="${product.getEstoque() > 4 && product.getEstoque()<10}"
+																			class="text-bg-warning badge">Estoque um
+																			pouco
+																			baixo</span>
+																		<span th:if="${product.getEstoque() > 9}"
+																			class="text-bg-success badge">Estoque bom
+																			matenha
+																			assim</span>
+																	</td>
+																	<td th:text="${#numbers.formatCurrency(product.getEstoque() * product.getCusto())}"
+																		class="fw-bold"></td>
+																</tr>
+
+															</tbody>
+														</table>
+														<nav aria-label="Page navigation example">
+															<ul class="pagination">
+																<li class="page-item">
+																	<a class="page-link" th:if="${page}>0"
+																		th:href="@{/usuario/area-cliente/empresa(tipo='estoque',page=${page-1})}"
+																		aria-label="Previous">
+																		<span aria-hidden="true">&laquo;</span>
+																	</a>
+																</li>
+																<li class="page-item"><a class="page-link"
+																		th:href="@{/usuario/area-cliente/empresa(tipo='estoque',page=0)}">1</a>
+																</li>
+																<li th:if="${countProduct} > 10" class="page-item"><a
+																		class="page-link"
+																		th:href="@{/usuario/area-cliente/empresa(tipo='estoque',page=1)}">2</a>
+																</li>
+																<li th:if="${countProduct} > 20" class="page-item"><a
+																		class="page-link"
+																		th:href="@{/usuario/area-cliente/empresa(tipo='estoque',page=2)}">3</a>
+																</li>
+																<li class="page-item">
+																	<a th:if="${countProduct/10 } > ${page} "
+																		class="page-link"
+																		th:href="@{/usuario/area-cliente/empresa(tipo='estoque',page=${page+1})}"
+																		aria-label="Next">
+																		<span aria-hidden="true">&raquo;</span>
+																	</a>
+																</li>
+															</ul>
+														</nav>
+													</div>
+
+												</div>
+											</div>
+											<!-- fim controle de estoque -->
+
+											<!-- Vendas recentes-->
+											<div class="col-12">
+												<div class="card recent-sales overflow-auto">
+
+
+
+													<div class="card-body">
+														<h5 class="card-title">Vendas recentes <span
+																th:text="' | ' + ${filterString}"></span>
+														</h5>
+
+														<table class="table table-borderless datatable">
+															<thead>
+																<tr>
+																	<th scope="col">Cód. produto</th>
+																	<th scope="col">Data</th>
+																	<th scope="col">Cliente</th>
+																	<th scope="col">Produto / Serviço</th>
+																	<th scope="col">Valor Total</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="sale: ${salesPagination}">
+																	<th scope="row" th:text="${'#'+sale.getId()}">
+																	</th>
+																	<td th:text="${sale.getData()}"></td>
+																	<td th:text="${sale.getCliente().getNome()}"></td>
+																	<td>
+																		<p class="d-inline-flex gap-1">
+																			<!--																		<a class="btn btn-primary"-->
+																			<!--																			data-bs-toggle="collapse"-->
+																			<!--																			th:href="${'collapseExample'+saleStat.index}" role="button"-->
+																			<!--																			aria-expanded="false"-->
+																			<!--																			th:aria-controls="${'collapseExample'+saleStat.index}">-->
+																			<!--																			Conferir produtos-->
+																			<!--																		</a>-->
+																			<button class="btn btn-primary"
+																				type="button" data-bs-toggle="collapse"
+																				th:data-bs-target="'#multiCollapseExample'+${saleStat.index}"
+																				aria-expanded="false"
+																				th:aria-controls="'multiCollapseExample'+${saleStat.index}">Conferir produtos</button>
+																		</p>
+
+
+																		<div class="collapse"
+																			th:id="${'multiCollapseExample'+saleStat.index}">
+																			<div class="card card-body">
+																				<ul class="list-group">
+																					<li class="list-group-item"
+																						th:each="product: ${sale.getItemSale()}"
+																						th:object="${product.getProduto()}">
+																						<div class="d-flex flex-column">
+																							<span
+																								th:text="'Produto: ' + *{nome}"></span>
+																							<span
+																								th:text="'Preco: ' + *{preco}"></span>
+																							<span
+																								th:text="'Quantidade: ' + ${product.getQuantidade()}"></span>
+																						</div>
+																					</li>
+
+																				</ul>
+																			</div>
+																		</div>
+
+
+																	</td>
+																	<td
+																		th:text="${#numbers.formatCurrency(sale.getValorTotal())}">
+																	</td>
+
+																</tr>
+
+															</tbody>
+														</table>
+
+													</div>
+
+												</div>
+											</div><!-- fim vendas recentes -->
+
+											<!-- Top vendas -->
+											<div class="col-12">
+												<div class="card top-selling overflow-auto">
+
+
+
+													<div class="card-body pb-0">
+														<h5 class="card-title">Mais vendidos<span
+																th:text="'| ' + ${filterString}"></span>
+														</h5>
+
+														<table class="table table-borderless">
+															<thead>
+																<tr>
+																	<th scope="col">Vizualização</th>
+																	<th scope="col">Produto / Serviço</th>
+																	<th scope="col">Preço</th>
+																	<th scope="col">Vendido</th>
+																	<th scope="col">Receita Bruta</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="product: ${productsTopSale}"
+																	th:if="${product.getVendido() >0}">
+																	<th scope="row"><img width="25px"
+																			th:src="${product.getImg()}" alt=""></th>
+
+																	<td>
+																		<span th:text="${product.getNome()}"
+																			class="text-primary fw-bold">
+																	</td>
+
+																	<td
+																		th:text="${#numbers.formatCurrency(product.getCusto())}">
+																	</td>
+																	<td th:text="${product.getVendido()}"
+																		class="fw-bold"></td>
+																	<td
+																		th:text="${#numbers.formatCurrency(product.getPreco()*product.getVendido())}">
+
+																	</td>
+
+																</tr>
+
+															</tbody>
+														</table>
+
+													</div>
+
+												</div>
+											</div>
+											<!-- fim top vendas -->
+
+											<!-- controle financeiro -->
+											<div class="col-12">
+												<div class="card recent-sales overflow-auto">
+
+													<div class="filter">
+														<a class="icon" href="#" data-bs-toggle="dropdown"><i
+																class="bi bi-three-dots"></i></a>
+														<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+
+
+															<li><a class="dropdown-item" href="#">Janeiro</a></li>
+															<li><a class="dropdown-item" href="#">Fevereiro</a>
+															</li>
+															<li><a class="dropdown-item" href="#">Março</a></li>
+															<li><a class="dropdown-item" href="#">Abril</a></li>
+															<li><a class="dropdown-item" href="#">Maio</a></li>
+															<li><a class="dropdown-item" href="#">Junho</a></li>
+															<li><a class="dropdown-item" href="#">Julho</a></li>
+															<li><a class="dropdown-item" href="#">Agosto</a></li>
+															<li><a class="dropdown-item" href="#">Setembro</a></li>
+															<li><a class="dropdown-item" href="#">Outubro</a></li>
+															<li><a class="dropdown-item" href="#">Novembro</a></li>
+															<li><a class="dropdown-item" href="#">Dezembro</a></li>
+														</ul>
+													</div>
+
+													<div class="card-body">
+														<h5 class="card-title">Contro financeiro <span>|
+																Janeiro 2023</span>
+														</h5>
+
+														<table class="table table-borderless datatable">
+															<thead>
+																<tr>
+																	<th escope="col">Dia</th>
+																	<th escope="col">Receitas</th>
+																	<th escope="col">Despesas (custo produto, custo
+																		do serviço, etc.)</th>
+																	<th escope="col">Investimentos (min 10%)</th>
+																	<th escope="col">Receita líquida</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="finance: ${finances}">
+																	<td th:text="${financeStat.index +1}"></td>
+																	<td
+																		th:text="${#numbers.formatCurrency(finance.getRevenue())}">
+																	</td>
+																	<td
+																		th:text="${#numbers.formatCurrency(finance.getExpense())}">
+																	</td>
+																	<td
+																		th:text="${#numbers.formatCurrency(finance.getRevenue()* 0.1)}">
+																	</td>
+																	<td
+																		th:text="${#numbers.formatCurrency((finance.getRevenue() - finance.getExpense()) - finance.getRevenue()* 0.1)}">
+																		R$ 78,30</td>
+																</tr>
+
+															</tbody>
+														</table>
+
+
+														<div class="card p-2 overflow-auto alert alert-info"
+															role="alert">
+
+															<table>
+																<thead>
+																	<tr>
+
+
+																		<th>
+																			Outras Despesas (luz, água, aluguel,
+																			etc.)
+																		</th>
+
+
+
+																		<th>
+																			Receita liquida total
+																		</th>
+
+
+
+																		<th>
+																			Investimento total
+																		</th>
+
+																	</tr>
+
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>R$ 500,00</td>
+																		<td>R$ 380,82</td>
+																		<td>R$ 88,08</td>
+																	</tr>
+																</tbody>
+															</table>
+
+														</div>
+													</div>
+
+												</div>
+											</div>
+											<!-- fim controle financeiro -->
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<!-- Fim navegação pessoa juridica -->
+					<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+					<!-- script do Chart.js -->
+					<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+					<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+					<script src="/assets/vendor/echarts/echarts.min.js"></script>
+
+					<script th:inline="javascript">
+
+						/*<![CDATA[*/
+						const sales = /*[[${jsonSale}]]*/ null;
+						/*]]>*/
+						const salesJson = JSON.parse(sales);
+
+						document.addEventListener("DOMContentLoaded", () => {
+							new ApexCharts(document.querySelector("#reportsChart"), {
+								series: [{
+									name: 'Vendas',
+									data: salesJson.map(sale => sale.venda),
+								}, {
+									name: 'Receitas',
+									data: salesJson.map((sale) => parseInt(sale.receita).toFixed(2))
+								}, {
+									name: 'Clientes',
+									data: salesJson.map(sale => sale.cliente)
+								}],
+								chart: {
+									height: 350,
+									type: 'area',
+									toolbar: {
+										show: false
+									},
+								},
+								markers: {
+									size: 4
+								},
+								colors: ['#4154f1', '#2eca6a', '#ff771d'],
+								fill: {
+									type: "gradient",
+									gradient: {
+										shadeIntensity: 1,
+										opacityFrom: 0.3,
+										opacityTo: 0.4,
+										stops: [0, 90, 100]
+									}
+								},
+								dataLabels: {
+									enabled: false
+								},
+								stroke: {
+									curve: 'smooth',
+									width: 2
+								},
+								xaxis: {
+									type: 'datetime',
+									categories: salesJson.map(sale => sale.dataVenda)
+								},
+								tooltip: {
+									x: {
+										format: 'dd/MM/yy '
+									},
+								}
+							}).render();
+						});
+					</script>
+					<script type="text/javascript" th:src="@{/assets/scripts/scripts.js}"></script>
+
+
+</body>
+
+</html>

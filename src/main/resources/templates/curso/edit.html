@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <th:block th:include="fragments/head :: head"></th:block>
+
+        <link rel="stylesheet" href="/assets/styles/painel-controle.css" />
+
+        <title>GestãoCash | Painel</title>
+    </head>
+    <body>
+        <div class="container-form-edit">
+            <h2>Alterar dados</h2>
+            <form
+                th:object="${course}"
+                th:action="@{'/cursos/editar/' + ${course.id}}"
+                method="post">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example1"
+                        >Nome curso</label
+                    >
+                    <input
+                        type="text"
+                        id="form4Example1"
+                        class="form-control"
+                        th:field="*{nomeCurso}" />
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2"
+                        >Media para concluir</label
+                    >
+                    <input
+                        type="number"
+                        id="form4Example2"
+                        class="form-control"
+                        th:field="*{conclusao}" />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2"
+                        >Descrição</label
+                    >
+                    <input
+                        type="text"
+                        id="form4Example2"
+                        class="form-control"
+                        th:field="*{descricao}" />
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2"
+                        >Duração</label
+                    >
+                    <input
+                        type="text"
+                        id="form4Example2"
+                        class="form-control"
+                        th:field="*{duracao}" />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2">url</label>
+                    <input
+                        type="text"
+                        id="form4Example2"
+                        class="form-control"
+                        th:field="*{url}" />
+                </div>
+
+                <!-- Submit button -->
+                <button
+                    data-mdb-ripple-init
+                    type="submit"
+                    class="btn btn-primary btn-block mb-4">
+                    Confirmar alterações
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

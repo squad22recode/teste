@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="add-client">
+		<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar empresa</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p th:text="${errorMessage}"></p>
+						<th th:text="${successMessage}"></th>
+						<form class="row g-3" method="post" th:object="${client}" th:action="@{/usuario/area-cliente/cadastrar-cliente}">
+							
+							<div class="col-md-4">
+								<label for="inputName" class="form-label">Nome</label>
+								<input type="text" class="form-control" id="inputName" required th:field="*{nome}" maxlength="50" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputCnpj" class="form-label">CPF</label>
+								<input type="text" class="form-control" id="inputCnpj" onkeyup="documentMask(this)" maxlength="15" th:field="*{cpf}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputRazaoSocial" class="form-label">Email</label>
+								<input type="email" class="form-control" id="inputEmail"
+									 th:field="*{email}" maxlength="60" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputRazaoSocial" class="form-label">Telefone</label>
+								<input type="tel" class="form-control" id="inputEmail" onkeyup="phone(event)"
+									 th:field="*{telefone}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputRazaoSocial" class="form-label">Data de nascimento</label>
+								<input type="date" class="form-control" id="inputEmail"
+									 th:field="*{dataNascimento}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputAddress" class="form-label">Endereço</label>
+								<input type="text" class="form-control" required id="inputAddress"
+									th:field="*{endereco.endereco}" placeholder="Av Aberlado Bueno 135" />
+							</div>
+
+							<div class="col-md-4">
+								<label for="inputAddress2" class="form-label">Complemento</label>
+								<input type="text" class="form-control" id="inputAddress2"
+									th:field="*{endereco.complemento}"
+									placeholder="Apartamento, casa, lote, etc." />
+							</div>
+							<div class="col-md-4">
+								<label for="inputDistrict" class="form-label">Bairro</label>
+								<input type="text" class="form-control" required id="inputDistrict"
+									th:field="*{endereco.bairro}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputCity" class="form-label">Cidade</label>
+								<input type="text" class="form-control" required id="inputCity"
+									th:field="*{endereco.cidade}" />
+							</div>
+							<div class="col-md-4">
+								<label for="inputState" class="form-label">Estado</label>
+								<select id="inputState" class="form-select" th:field="*{endereco.estado}">
+									<option selected value="null">Selecione</option>
+
+									<option th:each="state: ${states}" th:text="${state.descricao}"
+										th:value="${state.descricao}"></option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="inputZip" class="form-label">Cep</label>
+								<input type="text" class="form-control" onkeyup="handleZipCode(event)" required
+									maxlength="9" id="inputZip" th:field="*{endereco.cep}" />
+							</div> 
+							
+							<div class="col-12 my-2">
+								<button type="submit" class="btn btn-primary">
+									Cadastrar
+								</button>
+							</div>
+						</form>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+
+</html>

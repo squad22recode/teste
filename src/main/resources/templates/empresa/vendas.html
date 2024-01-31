@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Vendas')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+	
+	<div class="container my-5">
+		<div class="card top-selling overflow-auto">
+
+			<div class="card-body pb-0">
+				<div class="d-flex justify-content-between w-100 mt-2">
+
+					<h5 class="card-title">Controle de vendas
+					</h5>
+
+					<a href="/usuario/area-cliente/cadastrar-venda">
+						<h5 class="ms-3" role="button" data-bs-toggle="modal" data-bs-target="#addSaleModal"><i
+								class="bi bi-plus-lg"></i>
+							Adicionar Venda</h5></a>
+				</div>
+				<!--	Inicio da tavela-->
+				<table class="table table-borderless datatable">
+					<thead>
+						<tr>
+							<th scope="col">Cód. produto</th>
+							<th scope="col">Data</th>
+							<th scope="col">Cliente</th>
+							<th scope="col">Produto / Serviço</th>
+							<th scope="col">Valor Total</th>
+							<th scope="col">Deletar venda</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sale: ${sales}">
+							<th scope="row" th:text="${'#'+sale.getId()}">
+							</th>
+							<td th:text="${sale.getData()}"></td>
+							<td th:text="${sale.getCliente().getNome()}"></td>
+							<td>
+								<p class="d-inline-flex gap-1">
+								
+									<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+										th:data-bs-target="'#multiCollapseExample'+${saleStat.index}"
+										aria-expanded="false"
+										th:aria-controls="'multiCollapseExample'+${saleStat.index}">Conferir
+										produtos</button>
+								</p>
+
+
+								<div class="collapse" th:id="${'multiCollapseExample'+saleStat.index}">
+									<div class="card card-body">
+										<ul class="list-group">
+											<li class="list-group-item" th:each="product: ${sale.getItemSale()}"
+												th:object="${product.getProduto()}">
+												<div class="d-flex flex-column">
+													<span th:text="'Produto: ' + *{nome}"></span>
+													<span th:text="'Preco: ' + *{preco}"></span>
+													<span th:text="'Quantidade: ' + ${product.getQuantidade()}"></span>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+
+
+							</td>
+							<td th:text="${#numbers.formatCurrency(sale.getValorTotal())}">
+							</td>
+<td class="d-flex gap-2">
+								<a th:href="@{./delete/{id} (id=${sale.getId()})}" onclick="return confirm('Tem certeza que deseja excluir o cliente?');"
+									
+									class="border-0 bg-transparent">
+									<h5 class="mb-0">
+										<i class="bi bi-x-lg text-danger fw-bold"></i>
+									</h5>
+								</a>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+								<nav aria-label="Page navigation example">
+									<ul class="pagination">
+										<li class="page-item">
+											<a class="page-link" th:if="${page}>0"
+												th:href="@{./vendas(page=${page-1})}"
+												aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										<li class="page-item"><a class="page-link"
+												th:href="@{./vendas(page=0)}">1</a>
+										</li>
+										<li th:if="${sales.size()} > 9" class="page-item"><a class="page-link"
+												th:href="@{./vendas(page=1)}">2</a>
+										</li>
+										<li th:if="${sales.size()} > 20" class="page-item"><a class="page-link"
+												th:href="@{./vendas(page=2)}">3</a>
+										</li>
+										<li class="page-item">
+											<a th:if="${sales.size()/10 } > ${page} " class="page-link"
+												th:href="@{./vendas(page=${page+1})}"
+												aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+									</ul>
+								</nav>
+			</div>
+
+		</div>
+	</div>
+	<!--														Fim da tabela-->
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Cadastrar vendas')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+
+	<div class="container">
+		<div class="card mt-5 p-5">
+			<div class="card-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Venda</h1>
+			</div>
+
+			<div class="card-body mt-5">
+				<!--				<form class="row g-3" method="post" th:action="@{/usuario/area-cliente/cadastrar-venda}"-->
+				<!--					th:object="${sale}" id="form" name="form">-->
+				<!--					<input type="hidden" id="products" name="products" th:field="*{produto}" />-->
+				<!--					<div class="col-md-4">-->
+				<!--						<label for="inputRazaoSocial" class="form-label">Data</label>-->
+				<!--						<input type="date" class="form-control" id="inputData" name="inputData" th:field="*{data}" />-->
+				<!--					</div>-->
+				<!--					<div class="col-md-4">-->
+				<!--						<label for="inputClient" class="form-label">Cliente</label>-->
+				<!--						<select id="inputClient" name="inputClient" class="form-select dataProduct"-->
+				<!--							th:field="*{cliente}">-->
+				<!--							<option value="">Selecione o cliente</option>-->
+				<!--							<option th:each="client: ${clients}" th:text="${client.getNome()}"-->
+				<!--								th:value="${client.getId()}">-->
+				<!--							</option>-->
+				<!--						</select>-->
+
+				<!--					</div>-->
+				<!--					<div class="col-md-4">-->
+				<!--						<label for="inputDesconto" class="form-label dataDesconto">Desconto, se tiver</label>-->
+				<!--						<input type="tel" min="0" class="form-control" id="inputDesconto" name="inputDesconto"-->
+				<!--							th:field="*{desconto}" />-->
+
+				<!--					</div>-->
+
+				<!--					<div class="row mt-2" th:each="product: ${products}" >-->
+				<!--					<div class="col-md-3">-->
+				<!--							<label for="inputProduct" class="form-label">Produto</label>-->
+				<!--							<select id="inputProduct" name="inputProduct" class="form-select dataProduct" th:field="*{produtos[__${productStat.index}__]}">-->
+				<!--								<option value="">Selecione o produto</option>-->
+				<!--								<option th:each="product: ${products}" th:text="${product.getNome()}"-->
+				<!--									th:value="${product.getId()}"></option>-->
+				<!--							</select>-->
+				<!--					</div>-->
+				<!--						<div class="col-md-2">-->
+				<!--							<label for="inputQuantidade" class="form-label">Quantidade</label>-->
+				<!--							<input type="number" min="1" class="form-control dataQuant" id="inputQuantidade" th:field="*{produtos[__${productStat.index}__].vendido}"-->
+				<!--								name="inputQuantidade" />-->
+				<!--						</div>-->
+				<!--					</div>-->
+				<!--					<div class="col-12 my-2">-->
+				<!--						<button type="submit" class="btn btn-primary">-->
+				<!--							Cadastrar Venda-->
+				<!--						</button>-->
+				<!--					</div>-->
+				<!--				</form>-->
+
+				<form class="row" th:action="@{/usuario/area-cliente/cadastrar-venda}" th:object="${sale}"
+					method="post">
+					<div th:if="${not #strings.isEmpty(msgErro)}" class="alert alert-danger">
+						<p th:text="${msgErro}"></p>
+					</div>
+					<!-- Campos para a venda -->
+					<div class="col-md-4">
+
+						<label class="form-label">Data da Venda:</label>
+						<input class="form-control" type="date" th:field="*{data}" required>
+					</div>
+
+					<div class="col-md-4">
+
+						<label class="form-label">Desconto:</label>
+						<input class="form-control" type="tel" th:field="*{desconto}" required>
+					</div>
+					<div class="col-md-4">
+						<label for="inputClient" class="form-label">Cliente</label>
+						<select id="inputClient" name="inputClient" class="form-select dataProduct"
+							th:field="*{cliente}">
+							<option value="">Selecione o cliente</option>
+							<option th:each="client: ${clients}" th:text="${client.getNome()}"
+								th:value="${client.getId()}">
+							</option>
+						</select>
+					</div>
+					<!--    <label>Valor Total:</label>-->
+					<!--    <input type="number" th:field="*{valorTotal}" required>-->
+
+					<!-- Adicione mais campos conforme necessário -->
+
+					<!--					<table class="my-3">-->
+					<!--						<thead>-->
+					<!--							<tr>-->
+					<!--								<th>Produto</th>-->
+					<!--								<th>Quantidade</th>-->
+
+					<!--							</tr>-->
+					<!--						</thead>-->
+					<!--						<tbody>-->
+					<!--							<tr th:each="product, stat : ${products}">					-->
+					<!--									<td>-->
+					<!--									<select class="form-control" th:field="*{itemSale[__${stat.index}__].produto}"-->
+					<!--										required disabled>-->
+					<!--										<option th:value="${product.id}"-->
+					<!--											th:text="${product.nome}"></option>-->
+					<!--								</td>-->
+					<!--								<td><input class="form-control" type="text"-->
+					<!--										th:field="*{itemSale[__${stat.index}__].quantidade}" required value="0"></td>-->
+
+					<!--							</tr>-->
+					<!--						</tbody>-->
+					<!--					</table>-->
+					<div class="my-3 d-flex gap-2 flex-wrap flex-sm-nowrap" th:each="product, stat : ${products}">
+
+						<div class="flex-grow-1">
+
+							<select class="form-control " th:field="*{itemSale[__${stat.index}__].produto}" required>
+								<option th:value="${product.id}" th:text="${product.nome}" selected></option>
+							</select>
+						</div>
+
+						<div>
+							<input class="form-control" type="text" th:field="*{itemSale[__${stat.index}__].quantidade}"
+								required value="0">
+						</div>
+
+					</div>
+					<div class="col-md-4">
+						<button class="btn btn-primary">Cadastrar Venda</button>
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

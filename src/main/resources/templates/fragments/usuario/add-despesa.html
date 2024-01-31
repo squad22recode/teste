@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<div th:fragment="add-expense">		
+		<form th:object="${expense}" th:action="@{/usuario/area-cliente/despesa}" method="post">
+
+			<div class="mb-3">
+				<label for="InputData" class="form-label">Data</label>
+				<input type="date" required class="form-control" id="inputData" onblur="validarAno()" th:field="*{data}">
+
+			</div>
+			<div class="mb-3">
+				<label for="InputDescricao" class="form-label">Categoria</label>
+				<!--<input type="text" class="form-control" id="InputData" th:field="*{categoria}"> -->
+				<select required class="form-select" th:field="*{categoria}" id="select"
+					th:onclick="selecionado(event)">
+					<option value="">Selecione</option>
+					<option value="Outros" id="option">Outros</option>
+					<option th:each="cat: ${cats}" th:value="${cat}" th:text="${cat}"></option>
+
+				</select>
+				<div class="d-none" id="outros">
+					<input type="text" class="form-control mt-3" th:onblur="addCategory(event)" placeholder="Qual categoria ?"  />
+					
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="InputDescricao" class="form-label">Descrição</label>
+				<input type="text" class="form-control" id="InputData" th:field="*{descricao}" placeholder="mercado, água, lanche...">
+
+			</div>
+			<div class="mb-3">
+				<label for="InputValor" class="form-label">Valor</label>
+				<input type="number" required class="form-control" id="InputValor" th:field="*{valor}" step="0.01"
+					maxlength="10" placeholder="Digite o valor">
+
+			</div>
+
+			<button type="submit" class="btn btn-primary">Salvar</button>
+		</form>
+	</div>
+
+</body>
+
+</html>

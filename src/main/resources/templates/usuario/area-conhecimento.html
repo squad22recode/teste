@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Área do Cliente')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+
+	<section class="section profile container">
+		<!-- Inicio perfil do cliente -->
+		<div class="row justify-content-center mt-3">
+			<div class="col-10 col-md-6 col-lg-6 col-xxl-4">
+
+				<div th:replace="~{fragments/usuario/card-info-usuario :: card-user}"></div>
+
+			</div>
+		</div>
+		<!-- Fim perfil cliente -->
+
+		<div class="col-xl-12">
+
+			<div class="card">
+				<div class="card-body pt-3">
+					<!-- Inicio navegação entre abas -->
+					<ul class="nav nav-tabs nav-tabs-bordered">
+						<li class="nav-item">
+
+							<a href="/usuario/area-cliente" class="nav-link">Pessoa Física</a>
+						</li>
+
+						<li class="nav-item">
+
+							<a href="/usuario/area-cliente/empresa?filtro=mes" class="nav-link">Pessoa
+								Jurídica</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="/usuario/area-cliente/area-conhecimento" class="nav-link active">Área do
+								conhecimento</a>
+
+						</li>
+					</ul>
+
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- Inicio navegação conhecimento -->
+	<div class="tab-pane fade" id="profile-study">
+		<section id="main" class="main">
+
+
+			<div class="pagetitle">
+				<h1>Área do conhecimento</h1>
+			</div>
+			<hr th:if="${favorites.size() > 0}">
+			<br th:if="${favorites.size() > 0}">
+			<div class="pagetitle mt-3">
+
+				<h5 th:if="${favorites.size() > 0}"><i class="bi bi-star-fill"></i> Cursos favoritos
+				</h5>
+			</div>
+			<hr th:if="${favorites.size() > 0}">
+
+			<main class="row gap-2 ">
+
+				<div class="card card-study" th:each="course : ${favorites}">
+					<h3 th:text="${course.nomeCurso}" class="card-header"></h3>
+					<div>
+						<p> <i class="bi bi-alarm"></i> Duração <span
+								th:text="@{' | ' + ${course.duracao} + ' horas'}"></span></p>
+						<p> <i class="bi bi-calendar3"></i> Conclusão <span
+								th:text="@{'| ' + ${course.conclusao} + ' dias'}"></span></p>
+					</div>
+					<p class="card-body" th:text="${course.descricao}"></p>
+					<a th:href="${course.url}" class="btn" target="_blanck">Saiba mais</a>
+					<a th:href="@{'/cursos/excluir/' + ${course.id}}" class="btn btn-d">&#10006;
+						favoritos</a>
+
+
+
+				</div>
+				<hr>
+			</main>
+
+			<div class="section dashboard">
+				<div class="pagetitle mt-4">
+					<h5><i class="bi bi-book"></i> Cursos indicados </h5>
+
+				</div>
+				<hr>
+
+
+				<div class="section dashboard">
+					<div class="pagetitle mt-4">
+						<h5><i class="bi bi-book"></i> Cursos indicados </h5>
+
+					</div>
+					<hr>
+					<div class="row gap-2  justify-content-center">
+
+
+						<div class="card card-study" th:each="c : ${courses}">
+							<h3 th:text="${c.nomeCurso}" class="card-header"></h3>
+							<div>
+								<p> <i class="bi bi-alarm"></i> Duração <span
+										th:text="@{' | ' + ${c.duracao} + ' horas'}"></span></p>
+								<p> <i class="bi bi-calendar3"></i> Conclusão <span
+										th:text="@{'| ' + ${c.conclusao} + ' dias'}"></span></p>
+							</div>
+							<p class="card-body" th:text="${c.descricao}"></p>
+							<a th:href="${c.url}" class="btn" target="_blanck">Saiba mais</a>
+							<form th:action="@{/cursos/salvar}" method="post">
+								<!-- Campos ocultos para passar informações ao controlador -->
+								<input type="hidden" name="name" th:value="${c.nomeCurso}">
+								<input type="hidden" name="url" th:value="${c.url}">
+								<input type="hidden" name="description" th:value="${c.descricao}">
+								<input type="hidden" name="conclusion" th:value="${c.conclusao}">
+								<input type="hidden" name="duration" th:value="${c.duracao}">
+								<!-- Botão para salvar o curso -->
+								<button type="submit" class="btn btn-warning" target="_blank">
+									&#10010;
+									favoritos</button>
+							</form>
+
+
+
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- Fim navegação conhecimento -->
+
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+	<!-- <script src="/assets/scripts/constants.js"></script> -->
+	<!-- script do Chart.js -->
+	<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+	<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+	<script src="/assets/vendor/echarts/echarts.min.js"></script>
+
+
+
+	<script type="text/javascript" th:src="@{/assets/scripts/scripts.js}"></script>
+
+</body>
+
+</html>

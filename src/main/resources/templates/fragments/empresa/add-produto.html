@@ -1,0 +1,55 @@
+<div th:fragment="add-product">
+		<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar produto</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form class="row g-3" method="post" th:object="${product}" th:action="@{/usuario/area-cliente/cadastrar-produto}">
+							
+							<div class="col-md-3">
+								<label for="inputName" class="form-label">Nome</label>
+								<input type="text" class="form-control" id="inputName" required th:field="*{nome}" maxlength="100"/>
+							</div>
+							<div class="col-md-3">
+								<label for="inputCnpj" class="form-label">Custo</label>
+								<input type="number" step="0.01" class="form-control" id="inputCusto" required th:field="*{custo}" />
+							</div>
+							
+							<div class="col-md-3">
+								<label for="inputRazaoSocial" class="form-label">Quantidade para estoque</label>
+								<input type="tel" class="form-control" id="inputEmail" th:field="*{estoque}" />
+							</div>
+							<div class="col-md-3">
+								<label for="inputCnpj" class="form-label">Preço de venda</label>
+								<input type="number" step="0.01" class="form-control" id="inputCusto" th:field="*{preco}" />
+							</div>
+											
+							<div class="col-md-5 col-xl-3 ">
+								<label for="inputImg" class="form-label">URL de imagem do produto</label>
+								<input type="text" class="form-control" id="inputImg" required maxlength="255" th:field="*{img}" />
+							</div>
+							
+							<div class="col-md-8">
+								<label for="inputName" class="form-label">Descrição do Produto</label>
+								<textarea type="text" class="form-control" id="inputProduto" maxlength="255" th:field="*{descricao}"></textarea>
+							</div>
+							
+							<div class="col-12 my-2">
+								<button type="submit" class="btn btn-primary">
+									Cadastrar
+								</button>
+							</div>
+						</form>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

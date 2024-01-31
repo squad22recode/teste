@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+
+<head th:replace="~{fragments/head :: head (title='GestãoCash | Editar venda')}">
+
+	<!-- imports css -->
+
+</head>
+
+
+
+<body>
+	<!-- Inicio header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- fim header -->
+		<div class="container">
+		<div class="card mt-5 p-5">
+			<div class="card-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Venda</h1>
+			</div>
+
+			<div class="card-body mt-5">
+
+				<form class="row" th:object="${sale}"
+					method="post">
+					<div th:if="${not #strings.isEmpty(msgErro)}" class="alert alert-danger">
+						<p th:text="${msgErro}"></p>
+					</div>
+<!--					 Campos para a venda -->
+					<div class="col-md-4">
+
+						<label class="form-label">Data da Venda:</label>
+						<input class="form-control" type="date" th:field="*{data}" required>
+					</div>
+
+					<div class="col-md-4">
+
+						<label class="form-label">Desconto:</label>
+						<input class="form-control" type="tel" th:field="*{desconto}" required>
+					</div>
+					<div class="col-md-4">
+						<label for="inputClient" class="form-label">Cliente</label>
+						<h6 th:text="${sale.getCliente.getNome()}"></h6>
+					</div>
+<!--					<div class="my-3 d-flex gap-2 flex-wrap flex-sm-nowrap" th:each="product, stat : ${products}">-->
+
+<!--						<div class="flex-grow-1">-->
+
+<!--							<select class="form-control " th:field="*{itemSale[__${stat.index}__].produto}" required>-->
+<!--								<option th:value="${product.id}" th:text="${product.nome}" selected></option>-->
+<!--							</select>-->
+<!--						</div>-->
+
+<!--						<div>-->
+<!--							<input class="form-control" type="text" th:field="*{itemSale[__${stat.index}__].quantidade}"-->
+<!--								required value="0">-->
+<!--						</div>-->
+
+<!--					</div>-->
+					<div class="col-md-4">
+						<button class="btn btn-primary">Cadastrar Venda</button>
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+	<!--														Fim da tabela-->
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>
